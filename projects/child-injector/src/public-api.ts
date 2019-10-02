@@ -1,5 +1,5 @@
 /*
- * Public API Surface of child-injector
+ * Public API Surface of ngx-child-injector
  */
 
 export * from './lib/child-injector.component';

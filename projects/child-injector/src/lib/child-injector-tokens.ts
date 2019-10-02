@@ -1,4 +1,4 @@
-import {InjectionToken, Type} from '@angular/core';
+import { InjectionToken, Type } from '@angular/core';
 import { IChildInjectorModules, IChildInjectorCompiledModules } from './child-injector.interface';
 
 export const CHILD_INJECTOR_MODULES = new InjectionToken<IChildInjectorModules>('CHILD_INJECTOR_MODULES');

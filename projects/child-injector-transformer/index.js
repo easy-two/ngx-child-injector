@@ -10,15 +10,14 @@ const childInjectorModuleTransformer = () => {
   };
 };
 
-module.exports = {childInjectorModuleTransformer};
+module.exports = { childInjectorModuleTransformer };
 
 // from @angular/devkit (AngularCompilerPlugin)
 OPERATION_KIND.ADD = 0;
 OPERATION_KIND.REMOVE = 1;
 OPERATION_KIND.REPLACE = 2;
 
-const CHILD_INJECTOR_PACKAGE_NAME = '@easy-two/' +
-  'ngx-child-injector';
+const CHILD_INJECTOR_PACKAGE_NAME = '@easy-two/ngx-child-injector';
 
 /**
  * Applied files with CHILD_INJECTOR_MODULES token.
