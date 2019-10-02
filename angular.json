@@ -120,6 +120,41 @@
           }
         }
       }
+    },
+    "child-injector": {
+      "projectType": "library",
+      "root": "projects/child-injector",
+      "sourceRoot": "projects/child-injector/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/child-injector/tsconfig.lib.json",
+            "project": "projects/child-injector/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/child-injector/src/test.ts",
+            "tsConfig": "projects/child-injector/tsconfig.spec.json",
+            "karmaConfig": "projects/child-injector/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/child-injector/tsconfig.lib.json",
+              "projects/child-injector/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "child-injector-module"
 }

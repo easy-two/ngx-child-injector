@@ -1,0 +1,9 @@
+{
+  "name": "@easy-two/ngx-child-injector-transformer",
+  "version": "0.0.1-alpha.0",
+  "main": "index.js",
+  "peerDependencies": {
+    "typescript": "^3.5.3",
+    "@ngtools/webpack": "^7.0.0 || ^8.0.0"
+  }
+}
