@@ -1,9 +1,3 @@
-/**
- * @overview      ChildInjectorModule
- *                создает переданные модули с новым инжектором
- * @copyright     Copyright (c) Nexign, JSC, 1992-2019
- */
-
 import { Compiler, Injector, ModuleWithProviders, NgModule, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
