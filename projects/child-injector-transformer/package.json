@@ -5,5 +5,16 @@
   "peerDependencies": {
     "typescript": "^3.5.3",
     "@ngtools/webpack": "^7.0.0 || ^8.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/easy-two/ngx-child-injector.git"
+  },
+  "license": "MIT",
+  "author": "easy-two",
+  "maintainers": [
+    "Vladislav Sharikov sharikov.vladislav@gmail.com (https://github.com/sharikovvladislav)",
+    "Nikita Balakirev balakirevnikita@yandex.ru (https://github.com/nickbullock)"
+  ],
+  "bugs": "https://github.com/easy-two/ngx-child-injector/issues"
 }
