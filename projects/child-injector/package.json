@@ -1,6 +1,6 @@
 {
   "name": "@easy-two/ngx-child-injector",
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.1-alpha.1",
   "peerDependencies": {
     "@angular/common": "^7.0.0 || ^8.0.0",
     "@angular/core": "^7.0.0 || ^8.0.0"
