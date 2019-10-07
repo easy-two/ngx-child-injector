@@ -8,7 +8,10 @@ import {
   ComponentFactory,
   OnDestroy,
   OnChanges,
-  OnInit
+  OnInit,
+  ChangeDetectorRef,
+  SimpleChange,
+  SimpleChanges
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CHILD_INJECTOR_COMPILED_MODULES } from './child-injector-tokens';
@@ -18,7 +21,8 @@ import {
 } from './child-injector.interface';
 
 @Component({
-  selector: 'app-child-injector',
+  // tslint:disable-next-line:component-selector
+  selector: 'child-injector',
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -27,8 +31,7 @@ export class ChildInjectorComponent<T> implements OnInit, OnChanges, OnDestroy {
     @Inject(CHILD_INJECTOR_COMPILED_MODULES)
     private compiledModules: IChildInjectorCompiledModules<any, T>,
     private vc: ViewContainerRef
-  ) {
-  }
+  ) {}
 
   @Input() component: T;
   @Input() className: string;
@@ -59,51 +62,72 @@ export class ChildInjectorComponent<T> implements OnInit, OnChanges, OnDestroy {
       throw new Error(`[ChildInjectorComponent]: can not find compiled module for component ${(this.component as any).name}`);
     }
 
-    const factory: ComponentFactory<T> = compiledModule.module.componentFactoryResolver.resolveComponentFactory(
-      this.component
-    );
+    const factory: ComponentFactory<T> = compiledModule.module
+      .componentFactoryResolver.resolveComponentFactory(this.component);
+
     this.componentRef = this.vc.createComponent(factory);
-    const { instance, location } = this.componentRef;
 
     if (this.className) {
       const classNames = this.className.split(' ');
-      classNames.forEach(className => location.nativeElement.classList.add(className));
+      classNames.forEach(className => this.componentRef.location.nativeElement.classList.add(className));
     }
 
-    this.setInputs(instance);
-    this.setOutputs(instance);
+    this.setInputs({ inputs: this.inputs, firstChange: true });
+    this.setOutputs({ outputs: this.outputs });
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges(changes: SimpleChanges) {
     if (!this.componentRef) {
       return;
     }
     if (changes.inputs) {
-      this.setInputs(this.componentRef.instance);
+      this.setInputs({ inputs: this.inputs, firstChange: false });
     }
     if (changes.outputs) {
-      this.setOutputs(this.componentRef.instance);
+      this.setOutputs({ outputs: this.outputs });
     }
   }
 
-  setInputs(instance: T): void {
-    Object.assign(instance, this.inputs);
+  setInputs({ inputs, firstChange } ): void {
+    const { instance } = this.componentRef;
+    const changeDetectorRef = this.componentRef.injector.get(ChangeDetectorRef);
+    const prevInputsKeys = Object.keys(inputs);
+    const prevInputs = {};
+
+    prevInputsKeys.forEach(key => {
+      prevInputs[key] = instance[key];
+    });
+
+    Object.assign(instance, inputs);
+
+    const changes: SimpleChanges = {};
+    const inputKeys = Object.keys(inputs);
+
+    inputKeys.forEach(key => {
+      changes[key] = new SimpleChange(prevInputs[key], inputs[key], firstChange);
+    });
+
     if ((instance as any).ngOnChanges) {
-      (instance as any).ngOnChanges({ ...this.inputs });
+      (instance as any).ngOnChanges(changes);
     }
-    this.componentRef.changeDetectorRef.markForCheck();
+    changeDetectorRef.markForCheck();
   }
 
-  setOutputs(instance: T): void {
+  setOutputs({ outputs }): void {
     this.sub.unsubscribe();
-    const outputKeys = Object.keys(this.outputs);
+    this.sub = new Subscription();
 
-    outputKeys.forEach((key) => {
-      this.sub.add(instance[key].subscribe(this.outputs[key]));
+    Object.keys(outputs).forEach((key) => {
+      this.sub.add(
+        this.componentRef.instance[key].subscribe(outputs[key])
+      );
     });
   }
 
   ngOnDestroy() {
+    if (this.componentRef) {
+      this.componentRef.destroy();
+    }
     this.vc.clear();
     this.sub.unsubscribe();
   }
