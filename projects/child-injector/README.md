@@ -8,7 +8,7 @@ Usage
 Install the package and transformer:
 
 ```
-npm i --save @easy-two/ngx-child-injector @easy-two/ngx-child-injector-transformer
+npm i --save @easy-two/ngx-child-injector
 ```
 
 or
