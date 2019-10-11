@@ -39,7 +39,7 @@ ChildInjectorModule.forChildModule([SomeComponent])
 Somewhere in HTML of some component of your parent module [you need to add next HTML](https://github.com/easy-two/ng-child-module-injector/blob/master/examples/production-ready-child-modules-injector-example/src/app/app.component.html#L9) to render component:
 
 ```
-<app-child-injector [component]="WithCustomInjectorComponent" [inputs]="inputs"></app-child-injector>
+<child-injector [component]="WithCustomInjectorComponent" [inputs]="inputs"></child-injector>
 ```
 
 Note that `WithCustomInjectorComponent` have to be declared in the component class (it is just a reference to the component class you want to render).
