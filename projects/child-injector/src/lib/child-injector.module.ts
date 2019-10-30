@@ -1,12 +1,11 @@
-import { Compiler, Injector, ModuleWithProviders, NgModule, Type } from '@angular/core';
+import {Compiler, Injector, ModuleWithProviders, NgModule, NgModuleFactory, Type} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ChildInjectorComponent } from './child-injector.component';
 import { NgFactoryResolver } from './ng-factory-resolver';
 import {
   IChildInjectorCompiledModules,
-  IChildInjectorModules,
-  INgModuleFactoryLoaderResult
+  IChildInjectorModules
 } from './child-injector.interface';
 import {
   CHILD_INJECTOR_COMPILED_MODULES,
@@ -21,7 +20,7 @@ import {
   exports: [ChildInjectorComponent]
 })
 export class ChildInjectorModule {
-  static forModules(modules: IChildInjectorModules): ModuleWithProviders {
+  static forModules(modules: IChildInjectorModules): ModuleWithProviders<ChildInjectorModule> {
     return {
       ngModule: ChildInjectorModule,
       providers: [
@@ -39,7 +38,7 @@ export class ChildInjectorModule {
     };
   }
 
-  static forChildModule<T>(components: Array<T>): ModuleWithProviders {
+  static forChildModule<T>(components: Array<T>): ModuleWithProviders<ChildInjectorModule> {
     return {
       ngModule: ChildInjectorModule,
       providers: [{ provide: CHILD_INJECTOR_ENTRY_COMPONENTS, useValue: components }]
@@ -58,16 +57,17 @@ export function childInjectorModulesFactory(
         return ngModuleWebpackModule.compiled;
       }
 
-      const [name, factory]: INgModuleFactoryLoaderResult = NgFactoryResolver.resolve(ngModuleWebpackModule, compiler);
+      const factory: NgModuleFactory<any> = NgFactoryResolver.resolve(ngModuleWebpackModule, compiler);
       const module = factory.create(injector);
       const components = module.injector.get(CHILD_INJECTOR_ENTRY_COMPONENTS);
 
-      ngModuleWebpackModule.compiled = { name, module, components };
+      ngModuleWebpackModule.compiled = { module, components };
 
-      return { name, module, components };
+      return { module, components };
     });
 
     return modulesMapResult;
   });
+
   return modulesOfModulesResult;
 }

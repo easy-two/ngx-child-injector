@@ -1,4 +1,4 @@
-import { NgModuleRef, NgModuleFactory } from '@angular/core';
+import { NgModuleRef } from '@angular/core';
 
 export type IChildInjectorModules = Array<any>;
 export interface IChildInjectorCompiledModule<M, C> {
@@ -7,5 +7,4 @@ export interface IChildInjectorCompiledModule<M, C> {
   components: Array<C>;
 }
 export type IChildInjectorCompiledModules<M, C> = Array<IChildInjectorCompiledModule<M, C>>;
-export type INgModuleFactoryLoaderResult = [string, NgModuleFactory<any>];
 
