@@ -6,4 +6,4 @@ Sometimes you don't need lazy-loading or you have to split up your application n
 This repo contains to packages: [`ngx-child-injector`](projects/child-injector/README.md) and [`ngx-child-injector-transformer`](projects/child-injector-transformer/README.md).
 You can read README's in of that packages in their directories in `projects/*` dir.
 
-This code is part of article in AngularInDepth.
+This code is part of [an article](https://blog.angularindepth.com/requests-tracking-in-angular-application-with-child-module-injectors-without-lazy-loading-7227bd01d97a) in AngularInDepth.
